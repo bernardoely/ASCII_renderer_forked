@@ -101,6 +101,10 @@ const Menu = styled.div`
     }
   }
 
+  @media only screen and (max-width: 1200px) {
+    padding: 2em;
+  }
+
   @media only screen and (max-width: 600px) {
     > div:first-child {
       font-size: 1.5rem;
