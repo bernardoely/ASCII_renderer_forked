@@ -1,5 +1,4 @@
 import React, { useLayoutEffect } from 'react'
-import { Logo } from '@pmndrs/branding'
 import styled from 'styled-components'
 import Canvas from './Canvas'
 import { Gradient } from './lib/Gradient'
@@ -14,18 +13,18 @@ export default function Overlay() {
     <Main>
       <canvas id="gradient-canvas" data-transition-in />
       <Menu>
-        <Logo color="#f7057e" />
+        <div>xiru.dev</div>
         <div>
-          <p>SECRET TEACHINGS OF ALL AGES</p>
-          <p>30/11/22</p>
+          <p>ai dev</p>
+          <p>modernization boutique</p>
         </div>
       </Menu>
       <ContentContainer>
         <Content>
-          <p>MODUS OPERANDI FOR THE INVOCATION OF SPIRITS</p>
-          <h2>The Invocation—</h2>
-          <h1>Behold the sign and the very Hallowed Names of God full of power. Obey the power of this our pentacle;</h1>
-          <h3>The Complete Book of Magic Science</h3>
+          <p>WE ARE REPLACING HUMANS</p>
+          <h2>Nothing personal—</h2>
+          <h1>It  is  happening now.</h1>
+          <h3>We will thrive together.</h3>
         </Content>
       </ContentContainer>
       <CanvasContainer>
@@ -58,7 +57,6 @@ const CanvasContainer = styled.div`
     order: -1;
   }
 `
-
 const ContentContainer = styled.div`
   flex: 1 1 0;
   min-width: 0;
@@ -72,33 +70,38 @@ const ContentContainer = styled.div`
 `
 
 const Menu = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   padding: 4em;
 
-  > svg {
-    width: 64px;
+  > div:first-child {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #f7057e;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   }
 
   > div {
     text-align: right;
     font-size: 0.8rem;
-    width: 100px;
-    font-weight: bold;
-  }
+    line-height: 1.3;
 
-  @media only screen and (max-width: 1200px) {
-    padding: 2em;
+    > p:first-child {
+      font-weight: bold;
+    }
+
+    > p:last-child {
+      opacity: 0.5;
+    }
   }
 
   @media only screen and (max-width: 600px) {
-    > svg {
-      width: 44px;
+    > div:first-child {
+      font-size: 1.5rem;
     }
   }
 `
