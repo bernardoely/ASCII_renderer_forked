@@ -13,8 +13,8 @@ export default function App() {
       <AsciiRenderer 
         fgColor="white" 
         bgColor="transparent"
-        resolution={0.2}
-        charactersPerLine={60}
+        resolution={0.3}
+        charactersPerLine={70}
         characters=" .:-+*=%@#" 
         renderIndex={1}
       />
