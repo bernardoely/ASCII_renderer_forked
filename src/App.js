@@ -54,6 +54,7 @@ const CanvasContainer = styled.div`
 
   @media only screen and (max-width: 1200px) {
     padding-right: 0;
+    padding-top: 2.5em;  
     order: -1;
   }
 `
