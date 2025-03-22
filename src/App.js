@@ -66,7 +66,8 @@ const ContentContainer = styled.div`
   flex-direction: column;
   margin-top: 14em;
   @media only screen and (max-width: 1200px) {
-    margin-top: 0;
+    margin-top: 2.5em;
+    padding-top: 1.5em;
   }
 `
 

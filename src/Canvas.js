@@ -5,12 +5,19 @@ import styled from 'styled-components'
 
 export default function App() {
   return (
-    <StyledCanvas className="canvas">
+    <StyledCanvas className="canvas" frameloop="always" dpr={[1, 2]}>
       <color attach="background" args={['black']} />
       <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
       <pointLight position={[-10, -10, -10]} />
       <Torusknot />
-      <AsciiRenderer fgColor="white" bgColor="transparent" />
+      <AsciiRenderer 
+        fgColor="white" 
+        bgColor="transparent"
+        resolution={0.2}
+        charactersPerLine={60}
+        characters=" .:-+*=%@#" 
+        renderIndex={1}
+      />
     </StyledCanvas>
   )
 }
@@ -24,7 +31,13 @@ const StyledCanvas = styled(Canvas)`
 function Torusknot(props) {
   const ref = useRef()
   const viewport = useThree((state) => state.viewport)
-  useFrame((state, delta) => (ref.current.rotation.x = ref.current.rotation.y += delta / 2))
+  
+  // Optimize animation for higher FPS
+  useFrame((state, delta) => {
+    ref.current.rotation.x += delta * 0.5
+    ref.current.rotation.y += delta * 0.5
+  })
+  
   return (
     <mesh scale={Math.min(viewport.width, viewport.height) / 5} {...props} ref={ref}>
       <torusKnotGeometry args={[1, 0.2, 128, 32]} />
