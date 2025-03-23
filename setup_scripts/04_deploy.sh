@@ -51,14 +51,45 @@ if [ ! -d "build" ]; then
     exit 1
 fi
 
-# Stop any existing serve process
-echo -e "${YELLOW}Stopping any existing serve process...${NC}"
-pkill -f "serve -s build" || true
+# Create a systemd service file for the application
+echo -e "${YELLOW}Creating systemd service for the application...${NC}"
+SERVICE_NAME="ascii-renderer"
+APP_DIR=$(pwd)
 
-# Deploy using serve
-echo -e "${YELLOW}Deploying application using serve...${NC}"
-nohup serve -s build -l $PORT > serve.log 2>&1 &
+sudo tee /etc/systemd/system/${SERVICE_NAME}.service > /dev/null << EOF
+[Unit]
+Description=ASCII Renderer Web Application
+After=network.target
+
+[Service]
+Type=simple
+User=$(whoami)
+WorkingDirectory=${APP_DIR}
+ExecStart=$(which npx) serve -s build -l ${PORT}
+Restart=always
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=${SERVICE_NAME}
+Environment=NODE_ENV=production PORT=${PORT}
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Reload systemd, enable and start service
+echo -e "${YELLOW}Enabling and starting the service...${NC}"
+sudo systemctl daemon-reload
+sudo systemctl enable ${SERVICE_NAME}
+sudo systemctl restart ${SERVICE_NAME}
+
+# Check service status
+echo -e "${YELLOW}Checking service status...${NC}"
+sudo systemctl status ${SERVICE_NAME}
 
 echo -e "${GREEN}Deployment completed!${NC}"
-echo -e "${YELLOW}Application is now running on http://localhost:$PORT${NC}"
+echo -e "${YELLOW}Application is now running as a system service on http://localhost:$PORT${NC}"
 echo -e "${YELLOW}If you've configured a domain and SSL, it's also available at https://$DOMAIN${NC}"
+echo -e "${YELLOW}To check service status: sudo systemctl status ${SERVICE_NAME}${NC}"
+echo -e "${YELLOW}To restart service: sudo systemctl restart ${SERVICE_NAME}${NC}"
+echo -e "${YELLOW}To view logs: sudo journalctl -u ${SERVICE_NAME}${NC}"
